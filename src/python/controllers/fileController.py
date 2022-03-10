@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import math
+import os
+
 from cheese.resourceManager import ResMan
 from cheese.modules.cheeseController import CheeseController
 from cheese.ErrorCodes import Error
 
 from python.repositories.fileRepository import FileRepository
+from python.iconFinder import IconFinder
 
 #@controller /files
 class FileController(CheeseController):
@@ -13,10 +17,54 @@ class FileController(CheeseController):
     #@get /getFiles
     @staticmethod
     def getFiles(server, path, auth):
-        args = auth["args"]
-
         files = FileRepository.findFiles()
-        print(files)
+        data = []
+        iconFinder = IconFinder()
+        for f in files:
+            if (not os.path.exists(f"{ResMan.web()}/files/{f.file_name}")):
+                deleted = FileRepository.deleteFile(f.id)
+                continue
+            
+            data.append(
+                    {
+                        "filename": f.file_name,
+                        "size": FileController.convertBytes(f.file_size),
+                        "byteSize": f.file_size,
+                        "type": iconFinder.find(f.file_type),
+                        "realType": f.file_type,
+                        "date": os.path.getatime(f"{ResMan.web()}/files/{f.file_name}")
+                    }
+                )
 
-        response = CheeseController.createResponse({"OK": "OK"}, 200)
+        response = CheeseController.createResponse({"FILES": data}, 200)
         CheeseController.sendResponse(server, response)
+
+    #@get /delete
+    @staticmethod
+    def removeFile(server, path, auth):
+        fileName = auth["file"]
+
+        file = FileRepository.findFileByName(fileName)
+        if (file == None):
+            CheeseController.sendResponse(server, Error.FileNotFound)
+            CheeseController.serveFile(server, "/reconnect.html")
+        else:
+            deleted = FileRepository.deleteFile(file.id)
+            if (not deleted):
+                response = CheeseController.createResponse({"ERROR": "File was not removed :("}, 500)
+                CheeseController.sendResponse(server, response)
+            else:
+                os.remove(f"{ResMan.web()}/files/{fileName}")
+                CheeseController.serveFile(server, "/reconnect.html")
+
+    #METHODS
+
+    @staticmethod
+    def convertBytes(bytes):
+        if bytes == 0:
+            return "0B"
+        size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+        i = int(math.floor(math.log(bytes, 1024)))
+        p = math.pow(1024, i)
+        s = round(bytes / p, 2)
+        return "%s %s" % (s, size_name[i])

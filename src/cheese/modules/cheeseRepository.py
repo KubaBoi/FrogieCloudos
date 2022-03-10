@@ -7,6 +7,7 @@ from cheese.resourceManager import ResMan
 from cheese.databaseControll.database import Database
 
 #REPOSITORIES
+from cheese.repositories.fileRepositoryImpl import FileRepositoryImpl
 
 
 """
@@ -17,12 +18,45 @@ Database query of Cheese Application
 
 class CheeseRepository:
 
+    @staticmethod
+    def findFiles(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.findFiles(args)
+    @staticmethod
+    def findFileByName(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.findFileByName(args)
 
 
+    @staticmethod
+    def deleteFile(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.deleteFile(args)
+    @staticmethod
+    def save(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.save(args)
+    @staticmethod
+    def update(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.update(args)
 
 
     @staticmethod
     def initRepositories():
+        FileRepositoryImpl.init()
 
         pass
 
@@ -39,8 +73,14 @@ class CheeseRepository:
     def getTypeOf(args):
         newArgs = []
         for arg in args:
-            if (type(arg) is str):
-                newArgs.append(f"\'{arg}\'")
+            if (type(arg) is str and arg[-1] != "\'" 
+                and arg[-1] != ")" 
+                and not arg.endswith("DESC") 
+                and not arg.endswith("ASC")):
+                if (arg.startswith("columnName-")):
+                    newArgs.append(arg.replace("columnName-", ""))
+                else:
+                    newArgs.append(f"\'{arg}\'")
             elif (type(arg) is list):
                 newArgs.append("(" + ",".join(CheeseRepository.getTypeOf(arg)) + ")")
             else:

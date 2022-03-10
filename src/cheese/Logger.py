@@ -20,48 +20,56 @@ class Logger:
     @staticmethod
     def info(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__infoPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def okBlue(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__okBluePrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def okCyan(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__okCyanPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def okGreen(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__okGreenPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def warning(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__warningPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def fail(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__failPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def bold(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__boldPrint, args=(message,header,))
         x.start()
 
     @staticmethod
     def underline(message):
         header = Logger.__getMethod()
+        Logger.__writeFile(message, header)
         x = threading.Thread(target=Logger.__underlinePrint, args=(message,header,))
         x.start()
 
@@ -75,6 +83,21 @@ class Logger:
         function = calframe[3].function
         date = datetime.now()
         return Logger.BOLD + date.strftime("%H:%M:%S") + f" - {classFile}->{function}: {Logger.ENDC}"
+
+    @staticmethod
+    def __writeFile(message, header):
+        s = header + message
+        s = s.replace(Logger.HEADER, "")
+        s = s.replace(Logger.OKBLUE, "")
+        s = s.replace(Logger.OKCYAN, "")
+        s = s.replace(Logger.OKGREEN, "")
+        s = s.replace(Logger.WARNING, "")
+        s = s.replace(Logger.FAIL, "")
+        s = s.replace(Logger.ENDC, "")
+        s = s.replace(Logger.BOLD, "")
+        s = s.replace(Logger.UNDERLINE, "")
+        with open(ResMan.joinPath(ResMan.root(), "log.txt"), "a") as f:
+            f.write(s + "\n")
 
     @staticmethod
     def __infoPrint(message, header):

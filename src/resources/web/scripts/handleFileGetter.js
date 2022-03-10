@@ -7,7 +7,8 @@ function getFiles() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            jsonData = JSON.parse(this.responseText);
+            jsonData = JSON.parse(this.responseText).FILES;
+            console.log(jsonData);
             allData = jsonData;
             
             sort();
@@ -19,7 +20,7 @@ function getFiles() {
             } 
         }
     };
-    xhttp.open("GET", "/getFiles", true);
+    xhttp.open("GET", "/files/getFiles", true);
     xhttp.send();
 }
 

@@ -20,8 +20,10 @@ class Settings:
             settings = json.loads(f.read())
             Settings.host = settings["host"]
             Settings.port = settings["port"]
+            Settings.dbDriver = settings["dbDriver"]
             Settings.dbHost = settings["dbHost"]
             Settings.dbName = settings["dbName"]
             Settings.dbUser = settings["dbUser"]
             Settings.dbPassword = settings["dbPassword"]
             Settings.dbPort = settings["dbPort"]
+            Settings.canCommit = settings["canCommit"]

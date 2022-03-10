@@ -27,6 +27,14 @@ class CheeseController:
     def createResponse(dict, code):
         return (bytes(json.dumps(dict), "utf-8"), code)
 
+    # return json array from array of modules
+    @staticmethod
+    def modulesToJsonArray(modules):
+        jsonArray = []
+        for m in modules:
+            jsonArray.append(m.toJson())
+        return jsonArray
+
     # return now time and add argument in seconds
     @staticmethod
     def getTime(addTime=0):
