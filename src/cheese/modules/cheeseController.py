@@ -56,17 +56,13 @@ class CheeseController:
     # return arguments from rest request url
     @staticmethod
     def getArgs(url):
-        arguments = []
+        arguments = {}
         argsArray = url.split("?")
         if (len(argsArray) > 1):
             argsArray = argsArray[1].split("&")
             for arg in argsArray:
                 spl = arg.split("=")
-                arguments.append(
-                    {
-                        spl[0] : spl[1]
-                    }
-                )
+                arguments[spl[0]] = spl[1]
         return arguments
 
     # return arguments from body of request 

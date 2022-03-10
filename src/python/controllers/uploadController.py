@@ -48,13 +48,19 @@ class UploadController(CheeseController):
 
     @staticmethod
     def saveFile(fileForm):
-        if (os.path.exists(f"{ResMan.web()}" + "/files/" + fileForm.filename)): return
-        open(f"{ResMan.web()}" + "/files/" + fileForm.filename, "wb").write(fileForm.file.read())
-        id = FileRepository.findNewId()
+        filename = "".join(fileForm.filename.split(".")[:-1])
+        type = fileForm.filename.split(".")[-1].lower()
+        i = 0
+        while (os.path.exists(f"{ResMan.web()}" + "/files/" + filename + "." + type)): 
+            i += 1
+            filename = "".join(fileForm.filename.split(".")[:-1]) + "(" + str(i) + ")"
+
+        open(f"{ResMan.web()}" + "/files/" + filename + "." + type, "wb").write(fileForm.file.read())
+        id = FileRepository.findNewId() + 1
         fileRecord = File(
             id,
-            fileForm.filename,
-            os.path.getsize(f"{ResMan.web()}" + "/files/" + fileForm.filename),
-            fileForm.filename.split(".")[-1].lower()
+            filename + "." + type,
+            os.path.getsize(f"{ResMan.web()}" + "/files/" + filename + "." + type),
+            type
         )
         saved = FileRepository.save(fileRecord)

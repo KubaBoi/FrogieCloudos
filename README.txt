@@ -1,19 +1,28 @@
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
-apt show postgresql
 sudo -u postgres psql
-psql
 alter user postgres PASSWORD 'admin';
-ALTER ROLE
-CREATE DATABASE frogie__cloudos_database;
+CREATE DATABASE frogie_cloudos_database;
 \q
 sudo -u postgres psql frogie_cloudos_database
 
-sudo apt install libpq-dev python3-dev
-sudo pip install psycopg2-binary
-sudo pip install psycopg2
-sudo apt install unixodbc-dev
-sudo pip install pyodbc
+BEGIN;
+
+
+CREATE TABLE IF NOT EXISTS public.files
+(
+    file_name text NOT NULL,
+    file_size bigint NOT NULL,
+    id bigint NOT NULL,
+    file_type text,
+    PRIMARY KEY (id)
+);
+END;
+
+sudo apt install libpq-dev python3-dev python3-pip unixodbc-dev
+pip install psycopg2-binary
+pip install psycopg2
+pip install pyodbc
 
 sudo crontab -e
 @reboot python3 /home/Cloudos/server.py &
