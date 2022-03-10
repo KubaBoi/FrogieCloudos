@@ -27,3 +27,4 @@ class Settings:
             Settings.dbPassword = settings["dbPassword"]
             Settings.dbPort = settings["dbPort"]
             Settings.canCommit = settings["canCommit"]
+            Settings.multiThreading = settings["multiThreading"]

@@ -46,7 +46,10 @@ class Cheese:
     # initialization application server
     @staticmethod
     def initServer():
-        Cheese.server = CheeseServer((Settings.host, Settings.port), CheeseHandler)
+        if (Settings.multiThreading):
+            Cheese.server = CheeseServerMulti((Settings.host, Settings.port), CheeseHandler)
+        else:
+            Cheese.server = CheeseServer((Settings.host, Settings.port), CheeseHandler)
 
     # start server
     @staticmethod
