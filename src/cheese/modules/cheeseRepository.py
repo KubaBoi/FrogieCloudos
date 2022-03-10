@@ -32,6 +32,13 @@ class CheeseRepository:
 
         if (userRepository == "fileRepository"):
             return FileRepositoryImpl.findFileByName(args)
+    @staticmethod
+    def findNewId(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.findNewId(args)
 
 
     @staticmethod

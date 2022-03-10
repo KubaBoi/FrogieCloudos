@@ -20,6 +20,12 @@ class FileRepository(CheeseRepository):
     def findFileByName(fileName):
         return CheeseRepository.findFileByName([fileName])
 
+    #@query "select count(*) from files;"
+    #@return num
+    @staticmethod
+    def findNewId():
+        return CheeseRepository.findNewId([])
+
     #@commit "delete from files where id=:id;"
     @staticmethod
     def deleteFile(id):

@@ -12,6 +12,7 @@ from python.authorization import Authorization
 
 #REST CONTROLLERS
 from python.controllers.fileController import FileController
+from python.controllers.uploadController import UploadController
 
 
 """
@@ -38,6 +39,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     FileController.removeFile(self, self.path, auth)
                 else:
                     CheeseController.serveFile(self, self.path)
+            elif (path.startswith("/upload")):
+                pass
             else:
                 CheeseController.serveFile(self, self.path)
         
@@ -51,6 +54,11 @@ class CheeseHandler(BaseHTTPRequestHandler):
 
             if (self.path.startswith("/files")):
                 pass
+            elif (self.path.startswith("/upload")):
+                if (self.path.startswith("/upload/file")):
+                    UploadController.uploadFile(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
             else:
                 Error.sendCustomError(self, "Endpoint not found :(", 404)
 

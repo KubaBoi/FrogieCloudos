@@ -86,6 +86,19 @@ class FileRepositoryImpl:
         else: return None
 
     @staticmethod
+    def findNewId(args):
+
+        response = None
+        try:
+            response = Database.query(f"select count(*) from files;")
+            Database.done()
+        except Exception as e:
+            Logger.fail(str(e))
+
+        if (response == None): return response
+        return int(response[0][0])
+
+    @staticmethod
     def deleteFile(args):
         id = args[0]
 
