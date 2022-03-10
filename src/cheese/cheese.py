@@ -47,11 +47,9 @@ class Cheese:
     @staticmethod
     def initServer():
         if (Settings.multiThreading):
-            print("Multithreading server")
             Cheese.server = CheeseServerMulti((Settings.host, Settings.port), CheeseHandler)
         else:
-            print("not")
-            Cheese.server = HTTPServer((Settings.host, Settings.port), CheeseHandler)
+            Cheese.server = CheeseServer((Settings.host, Settings.port), CheeseHandler)
 
     # start server
     @staticmethod
