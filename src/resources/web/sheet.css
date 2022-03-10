@@ -1,0 +1,12 @@
+table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+td {
+    border: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #fff700;
+}

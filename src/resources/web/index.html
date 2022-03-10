@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="sheet.css">
+    <title>Frogie Cloudos</title>
+</head>
+<body>
+    <h1>Frogie Cloudos</h1>
+    <img src="images/frogieCloud.png" width="150" height="150" style="position: absolute; right: 5px; top: 0;">
+
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" multiple><br><br>
+        <input type="submit" value="Nahrát soubor" name="submit">
+    </form>
+    <hr>
+    <button onclick="getFiles()">Aktualizovat</button>
+
+    <label> Řadit podle: </label>
+    <select name="sorted" id="sorted" onchange="sort()">
+        <option value="name">Název</option>
+        <option value="time">Čas uploadu</option>
+        <option value="size">Velikost</option>
+        <option value="type">Typ souboru</option>
+    </select>
+    <select name="asc" id="asc" onchange="sort()">
+        <option value=1>Vzestupně</option>
+        <option value=-1>Sestupně</option>
+    </select>
+
+    <input type="text" name="search" id="search" placeholder="Napiš název souboru">
+    <input type="text" name="searchPr" id="searchPr" placeholder="Napiš příponu souboru">
+
+    <hr>
+    <table id="tableId"></table>
+
+    <script src="scripts/handleFileGetter.js"></script>
+    <script src="scripts/sortManager.js"></script>
+    <script src="scripts/searchManager.js"></script>
+    <script src="scripts/removeFile.js"></script>
+
+    <script>
+        getFiles();
+    </script>
+</body>
