@@ -49,7 +49,7 @@ class Cheese:
         if (Settings.multiThreading):
             Cheese.server = CheeseServerMulti((Settings.host, Settings.port), CheeseHandler)
         else:
-            Cheese.server = CheeseServer((Settings.host, Settings.port), CheeseHandler)
+            Cheese.server = HTTPServer((Settings.host, Settings.port), CheeseHandler)
 
     # start server
     @staticmethod

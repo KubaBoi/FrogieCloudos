@@ -5,15 +5,15 @@ sudo -u postgres psql
 psql
 alter user postgres PASSWORD 'admin';
 ALTER ROLE
-CREATE DATABASE frogie_database;
+CREATE DATABASE frogie__cloudos_database;
 \q
-sudo -u postgres psql frogie_database
+sudo -u postgres psql frogie_cloudos_database
 
 sudo apt install libpq-dev python3-dev
-pip install psycopg2-binary
-pip install psycopg2
+sudo pip install psycopg2-binary
+sudo pip install psycopg2
 sudo apt install unixodbc-dev
-pip install pyodbc
+sudo pip install pyodbc
 
 sudo crontab -e
 @reboot python3 /home/Cloudos/server.py &
