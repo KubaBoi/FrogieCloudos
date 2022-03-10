@@ -17,6 +17,6 @@ if __name__ == "__main__":
     Cheese.init()
 
     time.sleep(1)
-    requests.get(f"http://localhost:80/services/doYouKnowMe?name=Frogie_Cloudos&port={Settings.port}&icon=frogieCloud.png")
+    requests.get(f"http://localhost/services/doYouKnowMe?name=Frogie_Cloudos&port={Settings.port}&icon=frogieCloudBlack.png")
 
     Cheese.serveForever()
