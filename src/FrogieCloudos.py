@@ -16,6 +16,7 @@ main file of Cheese Application
 if __name__ == "__main__":
     Cheese.init()
 
+    time.sleep(5)
     requests.post(f"http://localhost/services/doYouKnowMe?name=Frogie_Cloudos&icon=frogieCloudBlack.png&port={Settings.port}&color=85FF77", data='{"TOKEN":"serviceToken"}')
 
     Cheese.serveForever()
