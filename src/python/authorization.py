@@ -3,7 +3,6 @@ import requests
 import json
 
 from cheese.modules.cheeseController import CheeseController
-from cheese.Logger import Logger
 
 #@authorization enabled
 class Authorization:
@@ -14,6 +13,7 @@ class Authorization:
         args = CheeseController.readArgs(server)
         try:
             if (method == "POST"):
+                args["ip"] = CheeseController.getClientAddress(server)
                 res = requests.post("http://localhost/authentication/authorizeToken", data=json.dumps(args))
                 if (res.status_code != 200):
                     return -1
