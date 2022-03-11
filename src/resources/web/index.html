@@ -13,7 +13,7 @@
         <input type="submit" value="Nahrát soubor" name="submit">
     </form>
     <hr>
-    <button onclick="getFiles()">Aktualizovat</button>
+    <button onclick="buildTable()">Aktualizovat</button>
 
     <label> Řadit podle: </label>
     <select name="sorted" id="sorted" onchange="sort()">
@@ -39,9 +39,10 @@
     <script src="scripts/sortManager.js"></script>
     <script src="scripts/searchManager.js"></script>
     <script src="scripts/removeFile.js"></script>
+    <script src="scripts/communication.js"></script>
 
     <script>
-        
-        getFiles();
+
+        buildTable();
     </script>
 </body>

@@ -36,16 +36,14 @@ class CheeseHandler(BaseHTTPRequestHandler):
         try:
             path = CheeseController.getPath(self.path)
             auth = Authorization.authorize(self, path, "GET")
+            if (auth == -1): 
+                CheeseController.sendResponse(self, Error.BadToken)
+                return
 
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
-            elif (path.startswith("/files")):
-                if (path.startswith("/files/getFiles")):
-                    FileController.getFiles(self, self.path, auth)
-                elif (path.startswith("/files/delete")):
-                    FileController.removeFile(self, self.path, auth)
-                else:
-                    CheeseController.serveFile(self, self.path)
+            elif (path.startswith("/fileController")):
+                pass
             elif (path.startswith("/upload")):
                 pass
             else:
@@ -58,9 +56,17 @@ class CheeseHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             auth = Authorization.authorize(self, self.path, "POST")
+            if (auth == -1): 
+                CheeseController.sendResponse(self, Error.BadToken)
+                return
 
-            if (self.path.startswith("/files")):
-                pass
+            if (self.path.startswith("/fileController")):
+                if (self.path.startswith("/fileController/getFiles")):
+                    FileController.getFiles(self, self.path, auth)
+                elif (self.path.startswith("/fileController/delete")):
+                    FileController.removeFile(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
             elif (self.path.startswith("/upload")):
                 if (self.path.startswith("/upload/file")):
                     UploadController.uploadFile(self, self.path, auth)

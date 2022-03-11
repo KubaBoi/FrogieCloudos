@@ -11,10 +11,10 @@ from cheese.ErrorCodes import Error
 from python.repositories.fileRepository import FileRepository
 from python.iconFinder import IconFinder
 
-#@controller /files
+#@controller /fileController
 class FileController(CheeseController):
 
-    #@get /getFiles
+    #@post /getFiles
     @staticmethod
     def getFiles(server, path, auth):
         files = FileRepository.findFiles()
@@ -39,15 +39,14 @@ class FileController(CheeseController):
         response = CheeseController.createResponse({"FILES": data}, 200)
         CheeseController.sendResponse(server, response)
 
-    #@get /delete
+    #@post /delete
     @staticmethod
     def removeFile(server, path, auth):
-        fileName = auth["file"]
+        fileName = auth["args"]["fileName"]
 
         file = FileRepository.findFileByName(fileName)
         if (file == None):
             CheeseController.sendResponse(server, Error.FileNotFound)
-            CheeseController.serveFile(server, "/reconnect.html")
         else:
             deleted = FileRepository.deleteFile(file.id)
             if (not deleted):
@@ -55,7 +54,8 @@ class FileController(CheeseController):
                 CheeseController.sendResponse(server, response)
             else:
                 os.remove(f"{ResMan.web()}/files/{fileName}")
-                CheeseController.serveFile(server, "/reconnect.html")
+                response = CheeseController.createResponse({"OK": "OK"}, 200)
+                CheeseController.sendResponse(server, response)
 
     #METHODS
 

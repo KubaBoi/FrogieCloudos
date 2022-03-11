@@ -2,26 +2,37 @@ var table = document.querySelector("#tableId");
 var allData = "";
 var jsonData = "";
 var iconSize = 30;
+var debug = true;
+
+async function buildTable() {
+    response = await getFiles();
+    if (response.ERROR == null) {
+        jsonData = response.FILES;
+        allData = jsonData
+
+        sort();
+        
+        table.innerHTML = "";
+        addHeadRow();
+        for (var i = 0; i < jsonData.length; i++) {
+            addRow(jsonData[i]);
+        } 
+    }
+}
 
 function getFiles() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            jsonData = JSON.parse(this.responseText).FILES;
-            console.log(jsonData);
-            allData = jsonData;
-            
-            sort();
-            
-            table.innerHTML = "";
-            addHeadRow();
-            for (var i = 0; i < jsonData.length; i++) {
-                addRow(jsonData[i]);
-            } 
+    var url = "/fileController/getFiles";
+    var request = JSON.stringify(
+        { 
+            "TOKEN": getCookie("token")
         }
-    };
-    xhttp.open("GET", "/files/getFiles", true);
-    xhttp.send();
+    );
+
+    return new Promise(resolve => {
+        sendPost(url, request, debug, function(response) {
+            resolve(response);
+        });
+    });
 }
 
 function addRow(data) {
