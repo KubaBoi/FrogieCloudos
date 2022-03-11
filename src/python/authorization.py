@@ -16,7 +16,6 @@ class Authorization:
             if (method == "POST"):
                 res = requests.post("http://localhost/authentication/authorizeToken", data=json.dumps(args))
                 if (res.status_code != 200):
-                    Logger.warning("Token was not authorized" + str(res.status_code))
                     return -1
         except:
             return -1
