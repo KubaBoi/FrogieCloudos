@@ -27,6 +27,6 @@ class Settings:
             Settings.dbPassword = settings["dbPassword"]
             Settings.dbPort = settings["dbPort"]
             Settings.allowCommit = settings["allowCommit"]
-            Settings.allowmultiThreading = settings["allowMultiThreading"]
+            Settings.allowMultiThreading = settings["allowMultiThreading"]
             Settings.allowCORS = settings["allowCORS"]
             Settings.allowDB = settings["allowDB"]
