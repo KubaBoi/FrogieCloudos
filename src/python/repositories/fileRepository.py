@@ -29,11 +29,6 @@ class FileRepository(CheeseRepository):
         except:
             return 0
 
-    #@commit "delete from files where id=:id;"
-    @staticmethod
-    def deleteFile(id):
-        return CheeseRepository.deleteFile([id])
-
     #@commit "update files set id=:id where file_name=:file_name;"
     @staticmethod
     def updateId(id, file_name):
@@ -46,3 +41,7 @@ class FileRepository(CheeseRepository):
     @staticmethod
     def update(obj):
         return CheeseRepository.update([obj])
+
+    @staticmethod
+    def delete(obj):
+        return CheeseRepository.delete([obj])

@@ -99,18 +99,6 @@ class FileRepositoryImpl:
         return int(response[0][0])
 
     @staticmethod
-    def deleteFile(args):
-        id = args[0]
-
-        try:
-            Database.commit(f"delete from files where id={id};")
-            Database.done()
-            return True
-        except Exception as e:
-            Logger.fail(str(e))
-            return False
-
-    @staticmethod
     def updateId(args):
         id = args[0]
         file_name = args[1]
@@ -141,6 +129,18 @@ class FileRepositoryImpl:
 
         try:
             Database.commit(f"update {FileRepositoryImpl.table} set {FileRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.done()
+            return True
+        except Exception as e:
+            Logger.fail(str(e))
+            return False
+
+    @staticmethod
+    def delete(args):
+        obj = FileRepositoryImpl.fromModel(args[0])
+
+        try:
+            Database.commit(f"delete {FileRepositoryImpl.table} set {FileRepositoryImpl.scheme} = {obj} where id={obj[0]};")
             Database.done()
             return True
         except Exception as e:

@@ -22,7 +22,7 @@ class FileController(CheeseController):
         iconFinder = IconFinder()
         for f in files:
             if (not os.path.exists(f"{ResMan.web()}/files/{f.file_name}")):
-                deleted = FileRepository.deleteFile(f.id)
+                deleted = FileRepository.delete(f)
                 continue
             
             data.append(
@@ -48,7 +48,7 @@ class FileController(CheeseController):
         if (file == None):
             CheeseController.sendResponse(server, Error.FileNotFound)
         else:
-            deleted = FileRepository.deleteFile(file.id)
+            deleted = FileRepository.delete(file)
             if (not deleted):
                 response = CheeseController.createResponse({"ERROR": "File was not removed :("}, 500)
                 CheeseController.sendResponse(server, response)
