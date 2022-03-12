@@ -14,7 +14,7 @@ class FileRepository(CheeseRepository):
     def findFiles():
         return CheeseRepository.findFiles([])
 
-    #@query "select * from files where file_name=:fileName;"
+    #@query "select * from files where file_name=:fileName order by id ASC;"
     #@return one
     @staticmethod
     def findFileByName(fileName):

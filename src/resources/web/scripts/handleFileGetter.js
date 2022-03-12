@@ -5,6 +5,8 @@ var iconSize = 30;
 var debug = true;
 
 async function buildTable() {
+    document.querySelector("#uploadFile").setAttribute("action", "/upload/file?token=" + getCookie("token"));
+
     response = await getFiles();
     if (response.ERROR == null) {
         jsonData = response.FILES;

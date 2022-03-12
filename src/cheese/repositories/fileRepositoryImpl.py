@@ -75,7 +75,7 @@ class FileRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files where file_name={fileName};")
+            response = Database.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files where file_name={fileName} order by id ASC;")
             Database.done()
         except Exception as e:
             Logger.fail(str(e))

@@ -42,7 +42,7 @@ class FileController(CheeseController):
     #@post /delete
     @staticmethod
     def removeFile(server, path, auth):
-        fileName = auth["args"]["fileName"]
+        fileName = auth["args"]["FILE_NAME"]
 
         file = FileRepository.findFileByName(fileName)
         if (file == None):
