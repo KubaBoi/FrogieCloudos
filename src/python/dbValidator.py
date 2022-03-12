@@ -22,7 +22,7 @@ class DBV:
                 if (file != None):
                     print(file.id, id)
                     if (file.id != id):
-                        if (FileRepository.updateId(id, file)):
+                        if (FileRepository.updateId(id, "\'" + file.file_name + "\'")):
                             Logger.okCyan(f"File {name}'s id was fixed")
                         else:
                             Logger.fail(f"Error while fixing {name}'s id")

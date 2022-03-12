@@ -113,10 +113,10 @@ class FileRepositoryImpl:
     @staticmethod
     def updateId(args):
         id = args[0]
-        name = args[1]
+        file_name = args[1]
 
         try:
-            Database.commit(f"update files set id={id} where file_name=:name;")
+            Database.commit(f"update files set id={id} where file_name={file_name};")
             Database.done()
             return True
         except Exception as e:
