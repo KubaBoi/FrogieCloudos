@@ -140,7 +140,7 @@ class FileRepositoryImpl:
         obj = FileRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"delete {FileRepositoryImpl.table} set {FileRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.commit(f"delete from {FileRepositoryImpl.table} where id={obj[0]};")
             Database.done()
             return True
         except Exception as e:
