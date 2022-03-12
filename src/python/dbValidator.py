@@ -20,18 +20,18 @@ class DBV:
                 if (name == ".gitignore"): continue
                 file = FileRepository.findFileByName(name)
                 if (file != None):
+                    print(file.id, id)
                     if (file.id != id):
-                        file.id = id
-                        if (FileRepository.save(file)):
+                        if (FileRepository.updateId(id, file)):
                             Logger.okCyan(f"File {name}'s id was fixed")
                         else:
                             Logger.fail(f"Error while fixing {name}'s id")
                     else:
                         Logger.okGreen(f"File {name} was OK")
+                    id += 1
                 else:
                     Logger.warning(f"File {name} was not in DB")
                     notInDbFiles.append(name)
-                id += 1
             DBV.addMissingFiles(notInDbFiles)
             Logger.info("Synchronization DONE")
 

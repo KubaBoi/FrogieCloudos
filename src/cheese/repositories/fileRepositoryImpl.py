@@ -90,7 +90,7 @@ class FileRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select count(*) from files;")
+            response = Database.query(f"select max(id) from files;")
             Database.done()
         except Exception as e:
             Logger.fail(str(e))
@@ -104,6 +104,19 @@ class FileRepositoryImpl:
 
         try:
             Database.commit(f"delete from files where id={id};")
+            Database.done()
+            return True
+        except Exception as e:
+            Logger.fail(str(e))
+            return False
+
+    @staticmethod
+    def updateId(args):
+        id = args[0]
+        name = args[1]
+
+        try:
+            Database.commit(f"update files set id={id} where file_name=:name;")
             Database.done()
             return True
         except Exception as e:

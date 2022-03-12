@@ -20,16 +20,24 @@ class FileRepository(CheeseRepository):
     def findFileByName(fileName):
         return CheeseRepository.findFileByName([fileName])
 
-    #@query "select count(*) from files;"
+    #@query "select max(id) from files;"
     #@return num
     @staticmethod
     def findNewId():
-        return CheeseRepository.findNewId([])
+        try:
+            return CheeseRepository.findNewId([])
+        except:
+            return 0
 
     #@commit "delete from files where id=:id;"
     @staticmethod
     def deleteFile(id):
         return CheeseRepository.deleteFile([id])
+
+    #@commit "update files set id=:id where file_name=:name;"
+    @staticmethod
+    def updateId(id, name):
+        return CheeseRepository.updateId([id, name])
 
     @staticmethod
     def save(obj):

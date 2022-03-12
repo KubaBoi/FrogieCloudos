@@ -48,6 +48,12 @@ class CheeseRepository:
         if (userRepository == "fileRepository"):
             return FileRepositoryImpl.deleteFile(args)
     @staticmethod
+    def updateId(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "fileRepository"):
+            return FileRepositoryImpl.updateId(args)
+    @staticmethod
     def save(args):
         userRepository = CheeseRepository.findUserRepository()
 
