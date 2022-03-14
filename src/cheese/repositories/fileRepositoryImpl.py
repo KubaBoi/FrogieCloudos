@@ -58,8 +58,9 @@ class FileRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files;")
-            Database.done()
+            db = Database()
+            response = db.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files;")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -75,8 +76,9 @@ class FileRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files where file_name={fileName} order by id ASC;")
-            Database.done()
+            db = Database()
+            response = db.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files where file_name={fileName} order by id ASC;")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -90,8 +92,9 @@ class FileRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select max(id) from files;")
-            Database.done()
+            db = Database()
+            response = db.query(f"select max(id) from files;")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -104,8 +107,9 @@ class FileRepositoryImpl:
         file_name = args[1]
 
         try:
-            Database.commit(f"update files set id={id} where file_name={file_name};")
-            Database.done()
+            db = Database()
+            db.commit(f"update files set id={id} where file_name={file_name};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
@@ -116,8 +120,9 @@ class FileRepositoryImpl:
         obj = FileRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"insert into {FileRepositoryImpl.table} {FileRepositoryImpl.scheme} values {obj};")
-            Database.done()
+            db = Database()
+            db.commit(f"insert into {FileRepositoryImpl.table} {FileRepositoryImpl.scheme} values {obj};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
@@ -128,8 +133,9 @@ class FileRepositoryImpl:
         obj = FileRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"update {FileRepositoryImpl.table} set {FileRepositoryImpl.scheme} = {obj} where id={obj[0]};")
-            Database.done()
+            db = Database()
+            db.commit(f"update {FileRepositoryImpl.table} set {FileRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
@@ -140,8 +146,9 @@ class FileRepositoryImpl:
         obj = FileRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"delete from {FileRepositoryImpl.table} where id={obj[0]};")
-            Database.done()
+            db = Database()
+            db.commit(f"delete from {FileRepositoryImpl.table} where id={obj[0]};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
