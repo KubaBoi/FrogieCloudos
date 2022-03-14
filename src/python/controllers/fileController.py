@@ -28,7 +28,7 @@ class FileController(CheeseController):
             data.append(
                     {
                         "filename": f.file_name,
-                        "size": FileController.convertBytes(f.file_size),
+                        "size": ResMan.convertBytes(f.file_size),
                         "byteSize": f.file_size,
                         "type": iconFinder.find(f.file_type),
                         "realType": f.file_type,
@@ -56,15 +56,3 @@ class FileController(CheeseController):
                 os.remove(f"{ResMan.web()}/files/{fileName}")
                 response = CheeseController.createResponse({"OK": "OK"}, 200)
                 CheeseController.sendResponse(server, response)
-
-    #METHODS
-
-    @staticmethod
-    def convertBytes(bytes):
-        if bytes == 0:
-            return "0B"
-        size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-        i = int(math.floor(math.log(bytes, 1024)))
-        p = math.pow(1024, i)
-        s = round(bytes / p, 2)
-        return "%s %s" % (s, size_name[i])
