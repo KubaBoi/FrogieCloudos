@@ -20,6 +20,7 @@ class FileController(CheeseController):
         files = FileRepository.findFiles()
         data = []
         iconFinder = IconFinder()
+
         for f in files:
             if (not os.path.exists(f"{ResMan.web()}/files/{f.file_name}")):
                 deleted = FileRepository.delete(f)
