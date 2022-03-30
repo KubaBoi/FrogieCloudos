@@ -62,7 +62,7 @@ class FileRepositoryImpl:
             response = db.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files;")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         resp = []
@@ -80,7 +80,7 @@ class FileRepositoryImpl:
             response = db.query(f"select {FileRepositoryImpl.schemeNoBrackets} from files where file_name={fileName} order by id ASC;")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         if (len(response) > 0):
@@ -96,7 +96,7 @@ class FileRepositoryImpl:
             response = db.query(f"select max(id) from files;")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         return int(response[0][0])
@@ -112,7 +112,7 @@ class FileRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
     @staticmethod
@@ -125,7 +125,7 @@ class FileRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
     @staticmethod
@@ -138,7 +138,7 @@ class FileRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
     @staticmethod
@@ -151,6 +151,6 @@ class FileRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
