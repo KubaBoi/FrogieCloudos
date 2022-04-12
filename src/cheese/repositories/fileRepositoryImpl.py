@@ -103,6 +103,21 @@ class FileRepositoryImpl:
         except: return -1
 
     @staticmethod
+    def findNewId(args):
+
+        response = None
+        try:
+            db = Database()
+            response = db.query(f"select max(id) from {FileRepositoryImpl.table};")
+            db.done()
+        except Exception as e:
+            Logger.fail("An error occurred while query request", str(e))
+
+        if (response == None): return response
+        try: return int(response[0][0])
+        except: return -1
+
+    @staticmethod
     def updateId(args):
         id = args[0]
         file_name = args[1]
@@ -110,18 +125,6 @@ class FileRepositoryImpl:
         try:
             db = Database()
             db.commit(f"update files set id={id} where file_name={file_name};")
-            db.done()
-            return True
-        except Exception as e:
-            Logger.fail("An error occurred while commit request", str(e))
-            return False
-
-    @staticmethod
-    def findNewId(args):
-
-        try:
-            db = Database()
-            db.commit(f"select max(id) from {FileRepositoryImpl.table};")
             db.done()
             return True
         except Exception as e:

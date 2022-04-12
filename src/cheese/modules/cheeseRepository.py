@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 import inspect
 
 from cheese.resourceManager import ResMan
@@ -39,6 +40,8 @@ class CheeseRepository:
 
         if (userRepository == "fileRepository"):
             return FileRepositoryImpl.findNewId(args)
+        elif (userRepository == "fileRepository"):
+            return FileRepositoryImpl.findNewId(args)
 
 
     @staticmethod
@@ -47,12 +50,6 @@ class CheeseRepository:
 
         if (userRepository == "fileRepository"):
             return FileRepositoryImpl.updateId(args)
-    @staticmethod
-    def findNewId(args):
-        userRepository = CheeseRepository.findUserRepository()
-
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.findNewId(args)
     @staticmethod
     def save(args):
         userRepository = CheeseRepository.findUserRepository()
@@ -106,6 +103,8 @@ class CheeseRepository:
                     newArgs.append(str(arg))
             elif (type(arg) is list):
                 newArgs.append("(" + ",".join(CheeseRepository.getTypeOf(arg)) + ")")
+            elif (type(arg) is datetime):
+                newArgs.append("'" + datetime.strftime(arg, "%d-%m-%Y %H:%M:%S") + "'")
             else:
                 newArgs.append(str(arg))
         return newArgs
