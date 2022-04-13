@@ -22,8 +22,8 @@ class Authorization:
                 args["ip"] = CheeseController.getClientAddress(server)
                 res = requests.post("http://localhost/authentication/authorizeToken", data=json.dumps(args))
 
-                if (res.status_code != 200):
-                    return -1
+                #if (res.status_code != 200):
+                #    return -1
             else:
                 args = CheeseController.readArgs(server)
         except Exception as e:
