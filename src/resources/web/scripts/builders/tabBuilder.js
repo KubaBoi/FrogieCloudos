@@ -35,7 +35,6 @@ async function openFolder(path, root) {
     
         buildFolder(divId);
         buildTree(divId);
-        createFavorites(divId);
     }
 }
 
