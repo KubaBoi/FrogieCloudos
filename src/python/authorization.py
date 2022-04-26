@@ -14,7 +14,7 @@ class Authorization:
 
         if (method == "GET"):
             args = cc.getArgs(path)
-            print(args)
+            
             if (not cc.validateJson(["path"], args)):
                 return {"role": 1}
 
