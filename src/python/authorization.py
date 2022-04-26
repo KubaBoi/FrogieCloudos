@@ -10,7 +10,9 @@ class Authorization:
         if (Authorization.isException(method, path)):
             return {"role": 0}
 
+        print(path)
         path = path.replace("\\", "/")
+        print(path)
 
         if (method == "GET"):
             args = cc.getArgs(path)
