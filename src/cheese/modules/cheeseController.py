@@ -64,10 +64,7 @@ class CheeseController:
             for arg in argsArray:
                 spl = arg.split("=")
                 if (decode):
-                    print(spl[1])
-                    print(spl[0])
                     arguments[spl[0]] = unquote(spl[1])
-                    print(arguments[spl[0]])
                 else:
                     arguments[spl[0]] = spl[1]
         return arguments
