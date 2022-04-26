@@ -10,6 +10,8 @@ class Authorization:
         if (Authorization.isException(method, path)):
             return {"role": 0}
 
+        path = path.replace("\\", "/")
+
         if (method == "GET"):
             args = cc.getArgs(path)
             if (not cc.validateJson(["path"], args)):
