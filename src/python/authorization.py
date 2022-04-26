@@ -5,15 +5,6 @@ from cheese.appSettings import Settings
 #@authorization enabled
 class Authorization:
 
-    authExceptions = [
-        ["GET", "/main/init"],
-        ["GET", "/main/favorites"],
-        ["GET", "*.html"],
-        ["GET", "*.css"],
-        ["GET", "*.js"],
-        ["GET", "*.png"]
-    ]
-
     @staticmethod
     def authorize(server, path, method):
         if (Authorization.isException(method, path)):
