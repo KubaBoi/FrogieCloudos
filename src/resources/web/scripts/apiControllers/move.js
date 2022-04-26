@@ -45,7 +45,7 @@ function getFolder(fldr) {
     if (newFldr == "") {
         newFldr = splitPath(fldr, "/");
     }
-    return newFldr;
+    return newFldr + "/";
 }
 
 function splitPath(fldr, delimiter="\\") {
