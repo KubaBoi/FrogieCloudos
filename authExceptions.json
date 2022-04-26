@@ -1,0 +1,25 @@
+{
+    "authExceptions": [
+        {
+            "method": "GET",
+            "path": "*.html"
+        },
+        {
+            "method": "GET",
+            "path": "*.css"
+        },
+        {
+            "method": "GET",
+            "path": "*.js"
+        },
+        {
+            "method": "GET",
+            "path": "*.png"
+        },
+        {
+            "method": "GET",
+            "path": "/main/init"
+        }
+    ]
+
+}

@@ -34,15 +34,12 @@ class ResMan:
     def joinPath(path1, path2):
         path1 = ResMan.removeSlash(path1, False)
         path2 = ResMan.removeSlash(path2)
-        return f"{path1}/{path2}"
+        return os.path.join(path1, path2)
 
     # joins array together
     @staticmethod
     def joinArray(array):
-        path = "/"
-        for p in array:
-            path = ResMan.joinPath(path, p)
-        return path
+        return os.path.join(*array)
 
     # root dir of project
     @staticmethod

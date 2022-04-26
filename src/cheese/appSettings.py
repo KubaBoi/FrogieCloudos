@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import json
 
 from cheese.resourceManager import ResMan
@@ -39,16 +40,19 @@ class Settings:
 
         Settings.activeLicense = "None"
 
-        with open(f"{ResMan.root()}/adminSettings.json", "r") as f:
+        with open(os.path.join(ResMan.root(), "adminSettings.json"), "r") as f:
             Settings.adminSettings = json.loads(f.read())
+
+        with open(os.path.join(ResMan.root(), "authExceptions.json"), "r") as f:
+            Settings.authExcepts = json.loads(f.read)["authExceptions"]
 
     @staticmethod
     def loadJson():
-        with open(f"{ResMan.root()}/appSettings.json", "r") as f:
+        with open(os.path.join(ResMan.root(), "appSettings.json"), "r") as f:
             ret = json.loads(f.read())
         return ret
 
     @staticmethod
     def saveJson(jsonConf):
-        with open(f"{ResMan.root()}/appSettings.json", "w") as f:
+        with open(os.path.join(ResMan.root(), "appSettings.json"), "w") as f:
             f.write(json.dumps(jsonConf))
