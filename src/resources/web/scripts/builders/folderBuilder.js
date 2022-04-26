@@ -9,12 +9,12 @@ async function buildFolder(divId) {
     clearTable(folderTable);
     chosenItems = [];
 
-    var response = await callEndpoint("GET", `/main/ls?path=${folder}`);
+    var response = await callEndpoint("GET", `/main/ls?path=${folder}/`);
     if (response.ERROR == null) {
         var folderItems = response.FOLDER;
         
         if (folderItems.length == 0) {
-            var response2 = await callEndpoint("GET", `/main/exists?path=${folder}`)
+            var response2 = await callEndpoint("GET", `/main/exists?path=${folder}/`)
             if (response2.ERROR == null) {
                 if (!response2.EXISTS) {
                     showWrongAlert("Not found", "Folder was not found", alertTime);
