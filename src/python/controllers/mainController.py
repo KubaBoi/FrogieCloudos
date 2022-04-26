@@ -46,7 +46,7 @@ class MainController(cc):
 
 		icon = IconFinder()
 
-		for root, dirs, files in os.walk(folder):
+		for root, dirs, files in os.walk(f"'{folder}'"):
 			for name in dirs:
 					jsonResponse["FOLDER"].append(
 					{
@@ -86,6 +86,7 @@ class MainController(cc):
 			return
 
 		file = args["path"]
+		print(file)
 
 		response = cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
 		cc.sendResponse(server, response)
