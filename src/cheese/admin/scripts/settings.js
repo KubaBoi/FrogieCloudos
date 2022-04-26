@@ -1,21 +1,13 @@
-function getSettings() {
-    url = "/admin/getSettings";
-    
-    return new Promise(resolve => {
-        sendGet(url, debug, function(response){
-            resolve(response);
-        });  
-    });
-}
 
 async function buildSettingTable() {
-    response = await getSettings();
+    response = await callEndpoint("GET", "/admin/getSettings");
     if (!response.ERROR) {
         for (const key in response) {
             if (response.hasOwnProperty(key)) {
                 addSetting(key, response[key]);
             }
         }
+        document.title = "CHAdmin - " + response.name;
     }
 }
 

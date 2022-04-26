@@ -1,0 +1,41 @@
+.treeDiv {
+    width: 200px;
+    word-break: break-all;
+
+    border: solid;
+    border-width: 2px;
+    border-color: #505050;
+    background-color: var(--main-color);
+    padding-bottom: 30px;
+    overflow-y: scroll;
+}
+
+.treeDiv ul {
+    list-style-type: none;
+    margin-left: 5px;
+    margin-right: 0px;
+    padding: 0;
+}
+
+.treeDiv hr {
+    height: 5px;
+    border-width: 0;
+    background-color: var(--light-color);
+    color: var(--light-color);
+}
+
+.treeDiv span {
+    cursor: pointer;
+    width: 100%;
+    padding: 5px;
+}
+
+.treeDiv span:hover {
+    background-color: var(--lighter-color);
+    transition: all;
+    transition-duration: 0.2s;
+}
+
+.treeDiv .activeSpan {
+    background-color: var(--light-color);
+}

@@ -48,6 +48,36 @@ function loadingText(text) {
     document.querySelector("#logTable").innerHTML = text;
 }
 
+async function saveChanges() {
+    var configString = "{";
+    var confTable = document.getElementById("settingsTable");
+    var rows = confTable.querySelectorAll("tr");
+    
+    for (var i = 0; i < rows.length; i++) {
+        var tds = rows[i].querySelectorAll("td");
+        var inp = tds[1].querySelector("input");
+        var val = validateValue(inp.value);
+        configString += `"${tds[0].innerHTML}": ${val},`; 
+    }
+    configString = configString.substring(0, configString.length - 1);
+    configString += "}";
+
+    setCookie("config", configString, 0.01)
+    var response = await callEndpoint("GET", "/admin/changeConfiguration");
+    if (response.ERROR != null) {
+        alert("ERROR: " + response.ERROR);
+    }
+
+}
+
+function validateValue(value) {
+    var int = parseInt(value);
+    if (!isNaN(int) && int.toString().length == value.length) return int;
+    else if (value == "false") return false;
+    else if (value == "true") return true;
+    return `"${value}"`;
+}
+
 async function checkLife() {
     fetch("/alive")
     .then(

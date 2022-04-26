@@ -1,0 +1,46 @@
+.folder {
+    background-color: rgb(133, 75, 4);
+}
+
+.file {
+}
+
+.contentDiv table {
+    width: 100%;
+}
+
+.contentDiv th {
+    text-align: left;
+}
+
+.contentDiv td {
+    height: 32px;
+}
+
+.folder:hover, .file:hover {
+    background-color: var(--main-color);
+    transition: all;
+    transition-duration: 0.2s;
+}
+
+.chosenItem {
+    background-color: #5ebef5;
+}
+
+.chosenItem:hover {
+    background-color: #4389b3;
+}
+
+.dragOver {
+    border: solid;
+    border-color: black;
+}
+
+.sizeCell {
+    font-size: 10px;
+    width: 50px;
+}
+
+.iconCell {
+    width: 35px;
+}

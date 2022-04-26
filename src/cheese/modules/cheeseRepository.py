@@ -8,7 +8,7 @@ from cheese.resourceManager import ResMan
 from cheese.databaseControll.database import Database
 
 #REPOSITORIES
-from cheese.repositories.fileRepositoryImpl import FileRepositoryImpl
+from cheese.repositories.favoritesRepositoryImpl import FavoritesRepositoryImpl
 
 
 """
@@ -20,59 +20,58 @@ Database query of Cheese Application
 class CheeseRepository:
 
     @staticmethod
-    def findFiles(args):
+    def findAll(args):
         userRepository = CheeseRepository.findUserRepository()
         args = CheeseRepository.getTypeOf(args)
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.findFiles(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.findAll(args)
     @staticmethod
-    def findFileByName(args):
+    def find(args):
         userRepository = CheeseRepository.findUserRepository()
         args = CheeseRepository.getTypeOf(args)
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.findFileByName(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.find(args)
+    @staticmethod
+    def findBy(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.findBy(args)
     @staticmethod
     def findNewId(args):
         userRepository = CheeseRepository.findUserRepository()
         args = CheeseRepository.getTypeOf(args)
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.findNewId(args)
-        elif (userRepository == "fileRepository"):
-            return FileRepositoryImpl.findNewId(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.findNewId(args)
 
 
-    @staticmethod
-    def updateId(args):
-        userRepository = CheeseRepository.findUserRepository()
-
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.updateId(args)
     @staticmethod
     def save(args):
         userRepository = CheeseRepository.findUserRepository()
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.save(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.save(args)
     @staticmethod
     def update(args):
         userRepository = CheeseRepository.findUserRepository()
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.update(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.update(args)
     @staticmethod
     def delete(args):
         userRepository = CheeseRepository.findUserRepository()
 
-        if (userRepository == "fileRepository"):
-            return FileRepositoryImpl.delete(args)
+        if (userRepository == "favoritesRepository"):
+            return FavoritesRepositoryImpl.delete(args)
 
 
     @staticmethod
     def initRepositories():
-        FileRepositoryImpl.init()
+        FavoritesRepositoryImpl.init()
 
         pass
 

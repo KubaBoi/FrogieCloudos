@@ -15,7 +15,7 @@ from python.authorization import Authorization
 
 #REST CONTROLLERS
 from python.controllers.fileController import FileController
-from python.controllers.uploadController import UploadController
+from python.controllers.mainController import MainController
 
 
 """
@@ -41,17 +41,51 @@ class CheeseHandler(BaseHTTPRequestHandler):
             return
         try:
             path = CheeseController.getPath(self.path)
-            auth = Authorization.authorize(self, path, "GET")
+            auth = Authorization.authorize(self, self.path, "GET")
             if (auth == -1): 
                 CheeseController.sendResponse(self, Error.BadToken)
                 return
 
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
-            elif (path.startswith("/fileController")):
-                pass
-            elif (path.startswith("/upload")):
-                pass
+            elif (path.startswith("/file")):
+                if (path.startswith("/file/openAs")):
+                    FileController.openAs(self, self.path, auth)
+                elif (path.startswith("/file/rename")):
+                    FileController.rename(self, self.path, auth)
+                elif (path.startswith("/file/properties")):
+                    FileController.properties(self, self.path, auth)
+                elif (path.startswith("/file/mkdir")):
+                    FileController.mkdir(self, self.path, auth)
+                elif (path.startswith("/file/write")):
+                    FileController.write(self, self.path, auth)
+                else:
+                    if (self.path.endswith(".css")):
+                        CheeseController.serveFile(self, self.path, "text/css")
+                    else:
+                        CheeseController.serveFile(self, self.path)
+            elif (path.startswith("/main")):
+                if (path.startswith("/main/init")):
+                    MainController.init(self, self.path, auth)
+                elif (path.startswith("/main/ls")):
+                    MainController.ls(self, self.path, auth)
+                elif (path.startswith("/main/open")):
+                    MainController.open(self, self.path, auth)
+                elif (path.startswith("/main/exists")):
+                    MainController.exists(self, self.path, auth)
+                elif (path.startswith("/main/file")):
+                    MainController.file(self, self.path, auth)
+                elif (path.startswith("/main/favorites")):
+                    MainController.favorites(self, self.path, auth)
+                elif (path.startswith("/main/cmd")):
+                    MainController.file(self, self.path, auth)
+                elif (path.startswith("/main/code")):
+                    MainController.code(self, self.path, auth)
+                else:
+                    if (self.path.endswith(".css")):
+                        CheeseController.serveFile(self, self.path, "text/css")
+                    else:
+                        CheeseController.serveFile(self, self.path)
             else:
                 if (self.path.endswith(".css")):
                     CheeseController.serveFile(self, self.path, "text/css")
@@ -59,8 +93,15 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     CheeseController.serveFile(self, self.path)
         
         except Exception as e:
-            Logger.fail("An error unknown occurred", e)
-            Error.sendCustomError(self, "Internal server error :(", 500)
+            if (type(e) is SystemError):
+                Logger.fail("SystemError occurred", e)
+                error = e
+                while (len(error.args) > 1):
+                    error = error.args[-1]
+                Error.sendCustomError(self, error.args[0], 500)
+            else:
+                Logger.fail("An error unknown occurred", e)
+                Error.sendCustomError(self, "Internal server error :(", 500)
 
     def do_POST(self):
         self.__log()
@@ -70,24 +111,30 @@ class CheeseHandler(BaseHTTPRequestHandler):
                 CheeseController.sendResponse(self, Error.BadToken)
                 return
 
-            if (self.path.startswith("/fileController")):
-                if (self.path.startswith("/fileController/getFiles")):
-                    FileController.getFiles(self, self.path, auth)
-                elif (self.path.startswith("/fileController/delete")):
-                    FileController.removeFile(self, self.path, auth)
+            if (self.path.startswith("/file")):
+                if (self.path.startswith("/file/copy")):
+                    FileController.copy(self, self.path, auth)
+                elif (self.path.startswith("/file/move")):
+                    FileController.move(self, self.path, auth)
+                elif (self.path.startswith("/file/remove")):
+                    FileController.remove(self, self.path, auth)
                 else:
                     Error.sendCustomError(self, "Endpoint not found :(", 404)
-            elif (self.path.startswith("/upload")):
-                if (self.path.startswith("/upload/file")):
-                    UploadController.uploadFile(self, self.path, auth)
-                else:
-                    Error.sendCustomError(self, "Endpoint not found :(", 404)
+            elif (self.path.startswith("/main")):
+                pass
             else:
                 Error.sendCustomError(self, "Endpoint not found :(", 404)
 
         except Exception as e:
-            Logger.fail("An error unknown occurred", e)
-            Error.sendCustomError(self, "Internal server error :(", 500)
+            if (type(e) is SystemError):
+                Logger.fail("SystemError occurred", e)
+                error = e
+                while (len(error.args) > 1):
+                    error = error.args[-1]
+                Error.sendCustomError(self, error.args[0], 500)
+            else:
+                Logger.fail("An error unknown occurred", e)
+                Error.sendCustomError(self, "Internal server error :(", 500)
 
     def end_headers(self):
         if (Settings.allowCORS):

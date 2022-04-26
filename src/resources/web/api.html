@@ -1,66 +1,561 @@
 <html lang="cs">
 <head>
-    <meta charset='utf-8'>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://frogie.cz:8002/style.css">
-    <link rel="stylesheet" href="http://frogie.cz:8002/prism.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <title>API</title>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/style.css">
+	<link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/prism.css">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<title>API - FileBrowserServer</title>
 </head>
 <body>
-    <script src="http://frogie.cz:8002/prism.js"></script>
+	<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/prism.js"></script>
 
-    <div id="toc_container">
-        <p class="toc_title">Contents</p>
-        <ol>
-            <li>
-                <a href="#1">/endpoint1</a>
-                <ol>
-                    <li><a href="#1.1">/endpoint11</a></li>
-                </ol>
-            </li>
-        </ol>
-    </div>
+	<div id="toc_container">
+		<p class="toc_title">Contents</p>
+		<ol>
+			<li>
+				<a href="#1">/main</a>
+				<ol>
+					<li><a href="#1.1">/init</a></li>
+					<li><a href="#1.2">/ls</a></li>
+					<li><a href="#1.3">/open</a></li>
+					<li><a href="#1.4">/exists</a></li>
+					<li><a href="#1.5">/file</a></li>
+					<li><a href="#1.6">/favorites</a></li>
+					<li><a href="#1.7">/cmd</a></li>
+					<li><a href="#1.8">/code</a></li>
+				</ol>
+			</li>
+			<li>
+				<a href="#2">/file</a>
+				<ol>
+					<li><a href="#2.1">/copy</a></li>
+					<li><a href="#2.2">/move</a></li>
+					<li><a href="#2.3">/openAs</a></li>
+					<li><a href="#2.4">/remove</a></li>
+					<li><a href="#2.5">/rename</a></li>
+					<li><a href="#2.6">/properties</a></li>
+					<li><a href="#2.7">/mkdir</a></li>
+					<li><a href="#2.8">/write</a></li>
+				</ol>
+			</li>
+		</ol>
+	</div>
 
-    <ol class="num">
-        <li class="num">
-            <span class="hd2" id="1">/endpoint1</span>
-            <ol class="num">
-                <li class="num">
-                    <span class="hd3" id="1.1">/endpoint11 - GET</span>
-                    <figure>
-                        <figcaption>Accepts:</figcaption>
-                        <pre><code class="language-json">
+
+	<ol class="num">
+		<li class="num">
+			<span class="hd2" id="1">/main</span>
+			<ol class="num">
+				
+				<li class="num">
+					<span class="hd3" id="1.1">/init - GET</span>
+					<p>Return home folder</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts nothing</figcaption>
+						<pre><code class="language-json">
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
 {
-    "ACCEPT": "json"
-}
-                        </code></pre></figure>
-                    <figure>
-                        <figcaption>Return OK - 200:</figcaption>
-                        <pre><code class="language-json">
+	"ROOT": "str",
+	"PATH": "str" 
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				<li class="num">
+					<span class="hd3" id="1.2">/ls - GET</span>
+					<p>Lists folder and files from folder</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{"FOLDER": [ 
+		{
+			"NAME": "str",
+			"IMAGE": "str",
+			"SIZE": "str",
+			"TYPE": "FOLDER"/"FILE"
+		}
+	]
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.3">/open - GET</span>
+					<p>Opens file with native program</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{"STATUS": "ok"}					
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.4">/exists - GET</span>
+					<p>Returns if file/folder exists or not</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
 {
-    "RETURN": "json"
-}
-                            </code></pre></figure>
-                    <figure>
-                        <figcaption>Return Bad request - 400:</figcaption>
-                        <pre><code class="language-json">
+	"EXISTS": true
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.5">/file - GET</span>
+					<p>Returns data of file</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
 {
-    "ERROR": "Wrong json structure"
-}
-                            </code></pre></figure>
-                    <figure>
-                        <figcaption>Return Unauthorized - 401:</figcaption>
-                        <pre><code class="language-json">
+	"FILE": {
+		"NAME": "str",
+		"CONTENT": "str"
+	}
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.6">/favorites - GET</span>
+					<p>Returns favorite directories</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts nothing</figcaption>
+						<pre><code class="language-json">
+					</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
 {
-    "ERROR": "Unauthorized"
+	"FAVORITES": [
+		{
+			"NAME": "str",
+			"PATH": "str"
+		}
+	]
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.7">/cmd - GET</span>
+					<p>Opens folder in command line</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="1.8">/code - GET</span>
+					<p>Opens folder in VS Code</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{"path": "str"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+			</ol>
+		</li>
+
+
+		<li class="num">
+			<span class="hd2" id="2">/file</span>
+			<ol class="num">
+				
+				<li class="num">
+					<span class="hd3" id="2.1">/copy - POST</span>
+					<p>Copy files into folder</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts post body</figcaption>
+						<pre><code class="language-json">
+{
+	"PATH": "str",
+	"ITEMS": [
+		{
+			"str"
+		}
+	]
 }
-                            </code></pre></figure>
-                </li>
-            </ol>
-        </li>
-        
-    </ol>
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.2">/move - POST</span>
+					<p>Copy files into folder and removes them from origin</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts post body</figcaption>
+						<pre><code class="language-json">
+{
+	"PATH": "str",
+	"ITEMS": [
+		{
+			"str"
+		}
+	]
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.3">/openAs - GET</span>
+					<p>Opens "open with" dialog</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"path": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.4">/remove - POST</span>
+					<p>Remove files</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts post body</figcaption>
+						<pre><code class="language-json">
+{
+	"PATH": "str",
+	"FILES": [
+		"str"
+	]
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.5">/rename - GET</span>
+					<p>Rename file</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"path": "str",
+	"newName": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.6">/properties - GET</span>
+					<p>Opens windows properties sheet of file</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"path": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"STATUS": "ok"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "File not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.7">/mkdir - GET</span>
+					<p>Creates new folder and return its name</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"path": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"FOLDER": "str"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+				<li class="num">
+					<span class="hd3" id="2.8">/write - GET</span>
+					<p>Creates new file and return its name</p>
+					<p class="role">Role = 0</p>
+					<figure>
+						<figcaption>Accepts path arguments</figcaption>
+						<pre><code class="language-json">
+{
+	"path": "str"
+}
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 200:</figcaption>
+						<pre><code class="language-json">
+{
+	"FILE": "str"
+}						
+						</code></pre></figure>
+					<figure>
+						<figcaption>Return 404:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Folder not found"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 400:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Wrong json structure"}						</code></pre></figure>
+					<figure>
+						<figcaption>Return 401:</figcaption>
+						<pre><code class="language-json">
+{"ERROR": "Unauthorized"}						</code></pre></figure>
+
+				</li>
+
+			</ol>
+
+		</li>
+
+	</ol>
 
 
 

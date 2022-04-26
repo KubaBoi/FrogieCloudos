@@ -1,0 +1,82 @@
+.windows {
+    display: grid;
+    position: relative;
+    top: 30px;
+    width: 100%;
+    height: 95%;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    grid-template-areas: "win1";
+}
+
+.window {
+    position: relative;
+    border: solid;
+    height: inherit;
+    overflow-y: hidden;
+    border-color: var(--ultra-light-color);
+    background-color: var(--light-color);
+    margin: 5px;
+    margin-top: 10px;
+    grid-area: win1;
+
+    animation-name: openWindowAnim;
+    animation-duration: 2s;
+}
+
+.window .winHeader {
+    position: relative; 
+    padding-top: 4px;
+    width: 100%;
+    background-color: var(--lighter-color);
+    text-align: top;
+}
+
+.contentDiv {
+    position: relative;
+    border: solid;
+    border-width: 4px;
+    border-color: var(--light-color);
+    width: 100%;
+    padding-bottom: 30px;
+    overflow-y: scroll;
+}
+
+.windowContent {
+    display: flex;
+    height: inherit;
+}
+
+@keyframes openWindowAnim {
+    0% {border-color: var(--secondary-color); background-color: var(--secondary-color);}
+    100% {border-color: var(--ultra-light-color); background-color: var(--light-color);}
+}
+
+hr {
+    height: 2px;
+    width: 100%;
+    border-width: 0;
+    background-color: var(--main-color);
+    color: var(--main-color);
+}
+
+.sizerDiv {
+    cursor: e-resize;
+    width: 4px;
+    background-color: var(--main-color);
+}
+
+.toolDiv {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+}
+
+.clickableImg, .closeImg {
+    width: 20px;
+    height: 20px;
+}
+
+.clickableImg:hover, .closeImg:hover, .clickableBigImg:hover {
+    filter: drop-shadow(0 0 2px #ffffffff);
+}

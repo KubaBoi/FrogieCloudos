@@ -22,6 +22,7 @@ class Settings:
         Settings.settings = Settings.loadJson()
         Settings.name = Settings.settings["name"]
         Settings.version = Settings.settings["version"]
+        Settings.licenseCode = Settings.settings["licenseCode"]
         Settings.host = Settings.settings["host"]
         Settings.port = Settings.settings["port"]
         Settings.dbDriver = Settings.settings["dbDriver"]
@@ -36,6 +37,8 @@ class Settings:
         Settings.allowCORS = Settings.settings["allowCORS"]
         Settings.allowDB = Settings.settings["allowDB"]
 
+        Settings.activeLicense = "None"
+
         with open(f"{ResMan.root()}/adminSettings.json", "r") as f:
             Settings.adminSettings = json.loads(f.read())
 
@@ -44,3 +47,8 @@ class Settings:
         with open(f"{ResMan.root()}/appSettings.json", "r") as f:
             ret = json.loads(f.read())
         return ret
+
+    @staticmethod
+    def saveJson(jsonConf):
+        with open(f"{ResMan.root()}/appSettings.json", "w") as f:
+            f.write(json.dumps(jsonConf))

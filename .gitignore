@@ -1,4 +1,6 @@
 __pycache__
 *.log
+*.pyc
 logs/*.log
 logs/*.html
+src/resources/web/images/exes/*

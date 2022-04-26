@@ -1,0 +1,13 @@
+<!-- HEADER -->
+<div id="winHeader" class="winHeader" draggable="true">
+    <img src="images/gridIcons/local.png" title="This is local directory" class="clickableBigImg">
+    <label id="folderPathLabel" class="dirPathLabel" onclick="editPathDialog(this)"></label>
+    <div class="toolDiv">
+        <img src="images/gridIcons/copy.png" title="Copy directory path" class="clickableImg" onclick="copyDirectory(this)">
+        <img src="images/gridIcons/cmd.png" title="Open directory in command line" class="clickableImg" onclick="openCmd(this)">
+        <img src="images/gridIcons/code.png" title="Open directory in VS Code" class="clickableImg" onclick="openCode(this)">
+        <img src="images/gridIcons/up.png" title="Into parent directory" class="clickableImg" onclick="moveUp(this)">
+        <img src="images/gridIcons/close.png" title="Close tab" class="closeImg" onclick="closeTab(this)">
+    </div>
+    <hr>
+</div>

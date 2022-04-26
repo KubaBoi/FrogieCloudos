@@ -1,0 +1,38 @@
+:root {
+    --main-color: #2b2b2b;
+    --main-text-color: #ffffff;
+    --light-color: #4e4e4e;
+    --lighter-color: #505050;
+    --ultra-light-color: #747272;
+    --secondary-color: #bb0c1d;
+    --secondary-light-color: #4b4545;
+    --ok-color: #4d974d;
+    --ok-light-color: #2f7c2f;
+    --wrong-color: #9e3a3a;
+    --wrong-light-color: #8b1c1c;
+    
+    --floatingMenuPositionX: -200px;
+    --floatingMenuPositionY: -200px;
+}
+
+body {
+    display: flex;
+    overflow-y: hidden;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.mainMenu {
+    position: fixed;
+    z-index: 100;
+}
+
+.chosenGridStyle {
+    background-color: var(--light-color);
+    filter: drop-shadow(0 0 2px #ffffffff);
+}

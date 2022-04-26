@@ -1,50 +1,56 @@
-<!DOCTYPE html>
+<html lang="cs">
+<html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="admin/styles/style.css">
-    <link rel="stylesheet" href="sheet.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <title>Frogie Cloudos</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/treeStyles.css">
+    <link rel="stylesheet" href="/styles/floatingStyles.css">
+    <link rel="stylesheet" href="/styles/scrollStyle.css">
+    <link rel="stylesheet" href="/styles/tableStyle.css">
+    <link rel="stylesheet" href="/styles/windowsStyle.css">
+    <link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/style.css">
+    <link rel="stylesheet" href="https://kubaboi.github.io/CheeseFramework/public/styles/alertStyle.css">
+    <title>File Browser</title>
 </head>
 <body>
-    <h1>Frogie Cloudos</h1>
-    <img src="images/frogieCloud.png" width="150" height="150" style="position: absolute; right: 5px; top: 0;">
 
-    <form action="" method="post" enctype="multipart/form-data" id="uploadFile">
-        <input type="file" name="file" id="file" multiple><br><br>
-        <input type="submit" value="Nahrát soubor" name="submit">
-    </form>
-    <hr>
-    <button onclick="buildTable()">Aktualizovat</button>
+<div id="menuDiv" class="mainMenu"></div>
+<div id="windowsDiv" class="windows"></div>
+<div id="fileMenuDiv"></div>
+<div></div>
 
-    <label> Řadit podle: </label>
-    <select name="sorted" id="sorted" onchange="sort()">
-        <option value="name">Název</option>
-        <option value="time">Čas uploadu</option>
-        <option value="size">Velikost</option>
-        <option value="type">Typ souboru</option>
-    </select>
-    <select name="asc" id="asc" onchange="sort()">
-        <option value=1>Vzestupně</option>
-        <option value=-1>Sestupně</option>
-    </select>
+<!-- External scripts -->
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>    
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/cookies.js"></script>    
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script>         
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/elementManager.js"></script>   
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/tableBuilder.js"></script>
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/alerts.js"></script>
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/loadPage.js"></script>
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/stringFormater.js"></script>
+<script src="https://kubaboi.github.io/CheeseFramework/public/scripts/clickManager.js"></script>
 
-    <input type="text" name="search" id="search" placeholder="Napiš název souboru">
-    <input type="text" name="searchPr" id="searchPr" placeholder="Napiš příponu souboru">
+<!-- Document builders -->
+<script src="/scripts/builders/folderBuilder.js"></script>
+<script src="/scripts/builders/treeBuilder.js"></script>
+<script src="/scripts/builders/tabBuilder.js"></script>
+<script src="/scripts/builders/gridManager.js"></script>
 
-    <hr>
-    <table id="tableId"></table>
+<!-- API Controllers -->
+<script src="/scripts/apiControllers/move.js"></script>
+<script src="/scripts/apiControllers/fileOpener.js"></script>
+<script src="/scripts/apiControllers/floatingMenu.js"></script>
 
-    <script src="http://frogie.cz/scripts/public/cookies.js"></script>
-    <script src="http://frogie.cz/scripts/public/communication.js"></script>
-    <script src="scripts/authentication.js"></script>
-    <script src="scripts/handleFileGetter.js"></script>
-    <script src="scripts/sortManager.js"></script>
-    <script src="scripts/searchManager.js"></script>
-    <script src="scripts/removeFile.js"></script>
+<!-- Input event managers -->
+<script src="/scripts/eventManagers/eventManager.js"></script>
+<script src="/scripts/eventManagers/dadItems.js"></script>
+<script src="/scripts/eventManagers/dadSizer.js"></script>
+<script src="/scripts/eventManagers/dragAndDrop.js"></script>
 
-    <script>
+<!-- Custom -->
+<script src="/scripts/custom/custom.js"></script>
 
-        buildTable();
-    </script>
+<script src="/scripts/start.js"></script>
+
 </body>
+</html>

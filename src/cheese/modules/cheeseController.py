@@ -8,6 +8,7 @@ import time
 from http.cookies import SimpleCookie
 
 from cheese.resourceManager import ResMan
+from cheese.appSettings import Settings
 from cheese.Logger import Logger
 
 """
@@ -56,14 +57,17 @@ class CheeseController:
 
     # return arguments from rest request url
     @staticmethod
-    def getArgs(url):
+    def getArgs(url, decode=True):
         arguments = {}
         argsArray = url.split("?")
         if (len(argsArray) > 1):
             argsArray = argsArray[1].split("&")
             for arg in argsArray:
                 spl = arg.split("=")
-                arguments[spl[0]] = spl[1]
+                if (decode):
+                    arguments[spl[0]] = unquote(spl[1])
+                else:
+                    arguments[spl[0]] = spl[1]
         return arguments
 
     # return bytes from post body
@@ -94,31 +98,38 @@ class CheeseController:
             if (header[0] == "Cookie"):
                 cookieRaw = ":".join(header[1:])
 
-        cookieRaw = list(cookieRaw)
-        for i in range(len(cookieRaw)):
-            if (cookieRaw[i] == "="):
-                while (cookieRaw[i] != ";"):
-                    if (cookieRaw[i] == " "): cookieRaw[i] = "_" 
-                    i += 1
-                    if (i >= len(cookieRaw)): break
-        
-        cookieRaw = "".join(cookieRaw)
-        cookie = SimpleCookie()
-        cookie.load(cookieRaw)
-        
         cookies = {}
-        for key, morsel in cookie.items():
-            cookies[key] = morsel.value
+        newCookieName = ""
+        index = 0
+        while True:
+            if (index >= len(cookieRaw)): break
+
+            if (cookieRaw[index] == " "):
+                index += 1 
+                continue
+            
+            while (cookieRaw[index] != "="):
+                newCookieName += cookieRaw[index]
+                index += 1
+
+            cookies[newCookieName] = ""  
+            index += 1              
+
+            while (cookieRaw[index] != ";"):
+                cookies[newCookieName] += cookieRaw[index]
+                index += 1
+                if (index >= len(cookieRaw)): break
+            
+            index += 1
+            newCookieName = ""
+        
         return cookies
 
     # send file
     @staticmethod
     def serveFile(server, file, header="text/html"):
         file = unquote(file)
-        if (file[0] == "/"):
-            file = os.path.join(ResMan.web(), file[1:])
-        else:
-            file = os.path.join(ResMan.web(), file)
+        file = ResMan.joinPath(ResMan.web(), file)
 
         Logger.info(f"Serving file: {file}")
         
@@ -127,7 +138,7 @@ class CheeseController:
                 CheeseController.sendResponse(server, (f.read(), 404))
             return
 
-        if (file.endswith(".html")):
+        if (file.endswith(".html") and not CheeseController.checkLicense()):
             with open(f"{file}", "r", encoding="utf-8") as f:
                 data = f.read()
                 if (data.find("</body>") != -1):
@@ -147,3 +158,10 @@ class CheeseController:
         server.end_headers()
 
         server.wfile.write(response[0])
+
+    # checks license
+    @staticmethod
+    def checkLicense():
+        if (Settings.activeLicense == "me" or Settings.activeLicense == "full access"):
+            return True
+        return False

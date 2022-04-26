@@ -27,14 +27,7 @@ class Database:
         else:
             self.db = SQLServerDB()
 
-        connected = False
-        while not connected:
-            try:
-                self.db.connect()
-                connected = True
-            except:
-                Logger.warning("Too many clients connected to database, waiting for one second")
-                time.sleep(1)
+        self.db.connect()
 
     # close connection with database
     def close(self):
@@ -42,14 +35,22 @@ class Database:
     
     # select query
     def query(self, sql):
-        self.connect()
-        ret = self.db.query(sql)
-        return ret
+        try:
+            self.connect()
+            ret = self.db.query(sql)
+            return ret
+        except Exception as e:
+            Logger.fail("Cannot establish connection with database", e)
+            raise SystemError("Cannot establish connection with database")
 
     # insert, update ...
     def commit(self, sql):
-        self.connect()
-        self.db.commit(sql)
+        try:
+            self.connect()
+            self.db.commit(sql)
+        except Exception as e:
+            Logger.fail("Cannot establish connection with database", e)
+            raise SystemError("Cannot establish connection with database")
 
     # commit when done
     def done(self):

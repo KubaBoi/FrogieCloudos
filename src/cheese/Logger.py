@@ -157,6 +157,16 @@ class Logger:
             logging.console(message)
 
     @staticmethod
+    def adminInfo(message, allowHeader=False, silence=False):
+        if (allowHeader): header = Logger.__getMethod()
+        else: header = ""
+        logging.file(header + message)
+        message = Logger.__warningPrint(message, header)
+        logging.html_file(message)
+        if (Settings.allowDebug or not silence):
+            logging.console(message)
+
+    @staticmethod
     def bold(message, allowHeader=True, silence=True):
         if (allowHeader): header = Logger.__getMethod()
         else: header = ""
