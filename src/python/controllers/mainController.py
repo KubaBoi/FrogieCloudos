@@ -8,8 +8,6 @@ from cheese.resourceManager import ResMan
 from cheese.appSettings import Settings
 from cheese.modules.cheeseController import CheeseController as cc
 
-from python.repositories.favoritesRepository import FavoritesRepository
-
 from python.iconFinder import IconFinder
 
 #@controller /main
@@ -74,26 +72,6 @@ class MainController(cc):
 		response = cc.createResponse(jsonResponse, 200)
 		cc.sendResponse(server, response)
 
-	#@get /open
-	@staticmethod
-	def open(server, path, auth):
-		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 401)
-			return
-
-		args = cc.getArgs(path)
-
-		if (not cc.validateJson(["path"], args)):
-			Error.sendCustomError(server, "Wrong json structure", 400)
-			return
-
-		file = args["path"]
-
-		os.startfile(file)
-
-		response = cc.createResponse({'STATUS': 'ok'}, 200)
-		cc.sendResponse(server, response)
-
 	#@get /exists
 	@staticmethod
 	def exists(server, path, auth):
@@ -129,68 +107,6 @@ class MainController(cc):
 		file = args["path"]
 
 		response = cc.createResponse({'FILE': {'NAME': 'str', 'CONTENT': 'str'}}, 200)
-		cc.sendResponse(server, response)
-
-	#@get /favorites
-	@staticmethod
-	def favorites(server, path, auth):
-		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 401)
-			return
-
-		fav = FavoritesRepository.findAll()
-
-		jsonResponse = cc.modulesToJsonArray(fav)
-
-		response = cc.createResponse({"FAVOURITES": jsonResponse}, 200)
-		cc.sendResponse(server, response)
-
-	#@get /cmd
-	@staticmethod
-	def file(server, path, auth):
-		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 401)
-			return
-
-		args = cc.getArgs(path)
-
-		if (not cc.validateJson(['path'], args)):
-			Error.sendCustomError(server, "Wrong json structure", 400)
-			return
-
-		path = args["path"]
-		if (not os.path.exists(path)):	
-			Error.sendCustomError(server, "Folder not found", 404)
-			return
-
-		command = f"start cmd /K cd \"{path}\""
-		os.system(command)
-
-		response = cc.createResponse({"STATUS": "ok"}, 200)
-		cc.sendResponse(server, response)
-
-	#@get /code
-	@staticmethod
-	def code(server, path, auth):
-		if (auth["role"] > 0):
-			Error.sendCustomError(server, "Unauthorized", 401)
-			return
-
-		args = cc.getArgs(path)
-
-		if (not cc.validateJson(['path'], args)):
-			Error.sendCustomError(server, "Wrong json structure", 400)
-			return
-
-		path = args["path"]
-		if (not os.path.exists(path)):	
-			Error.sendCustomError(server, "Folder not found", 404)
-			return
-
-		command = f"code -n \"{path}\""
-		os.system(command)
-
-		response = cc.createResponse({"STATUS": "ok"}, 200)
 		cc.sendResponse(server, response)
 
 	# METHODS

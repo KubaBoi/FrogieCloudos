@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
-from subprocess import Popen, PIPE
 import shutil
 from send2trash import send2trash
 
@@ -11,7 +9,6 @@ from cheese.ErrorCodes import Error
 from cheese.resourceManager import ResMan
 from cheese.modules.cheeseController import CheeseController as cc
 
-from python.propOpener import PropertiesOpener as po
 
 
 #@controller /file
@@ -79,33 +76,6 @@ class FileController(cc):
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)
 
-    #@get /openAs
-    @staticmethod
-    def openAs(server, path, auth):
-        if (auth["role"] > 0):
-            Error.sendCustomError(server, "Unauthorized", 401)
-            return
-
-        args = cc.getArgs(path)
-
-        if (not cc.validateJson(["path"], args)):
-            Error.sendCustomError(server, "Wrong json structure", 400)
-            return
-
-        file = args["path"]
-
-        if (not os.path.exists(file)):
-            Error.sendCustomError(server, "Folder not found", 404)
-            return
-
-        command = f"powershell.exe RUNDLL32.EXE SHELL32.DLL,OpenAs_RunDLL \"{file}\""
-
-        p = Popen(command, stdout=sys.stdout, shell=True)
-        p.communicate()
-
-        response = cc.createResponse({"STATUS": "ok"}, 200)
-        cc.sendResponse(server, response)
-
     #@post /remove
     @staticmethod
     def remove(server, path, auth):
@@ -149,30 +119,6 @@ class FileController(cc):
             return
 
         os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
-
-        response = cc.createResponse({"STATUS": "ok"}, 200)
-        cc.sendResponse(server, response)
-
-    #@get /properties
-    @staticmethod
-    def properties(server, path, auth):
-        if (auth["role"] > 0):
-            Error.sendCustomError(server, "Unauthorized", 401)
-            return
-
-        args = cc.getArgs(path)
-
-        if (not cc.validateJson(["path"], args)):
-            Error.sendCustomError(server, "Wrong json structure", 400)
-            return
-
-        file = args["path"]
-
-        if (not os.path.exists(file)):
-            Error.sendCustomError(server, "File not found", 404)
-            return
-
-        po.open(file)
 
         response = cc.createResponse({"STATUS": "ok"}, 200)
         cc.sendResponse(server, response)

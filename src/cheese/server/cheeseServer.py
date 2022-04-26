@@ -49,12 +49,8 @@ class CheeseHandler(BaseHTTPRequestHandler):
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
             elif (path.startswith("/file")):
-                if (path.startswith("/file/openAs")):
-                    FileController.openAs(self, self.path, auth)
-                elif (path.startswith("/file/rename")):
+                if (path.startswith("/file/rename")):
                     FileController.rename(self, self.path, auth)
-                elif (path.startswith("/file/properties")):
-                    FileController.properties(self, self.path, auth)
                 elif (path.startswith("/file/mkdir")):
                     FileController.mkdir(self, self.path, auth)
                 elif (path.startswith("/file/write")):
@@ -69,18 +65,10 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     MainController.init(self, self.path, auth)
                 elif (path.startswith("/main/ls")):
                     MainController.ls(self, self.path, auth)
-                elif (path.startswith("/main/open")):
-                    MainController.open(self, self.path, auth)
                 elif (path.startswith("/main/exists")):
                     MainController.exists(self, self.path, auth)
                 elif (path.startswith("/main/file")):
                     MainController.file(self, self.path, auth)
-                elif (path.startswith("/main/favorites")):
-                    MainController.favorites(self, self.path, auth)
-                elif (path.startswith("/main/cmd")):
-                    MainController.file(self, self.path, auth)
-                elif (path.startswith("/main/code")):
-                    MainController.code(self, self.path, auth)
                 else:
                     if (self.path.endswith(".css")):
                         CheeseController.serveFile(self, self.path, "text/css")
