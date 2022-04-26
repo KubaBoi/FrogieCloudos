@@ -16,7 +16,7 @@ class Authorization:
                 return {"role": 1}
 
             path = args["path"]
-            if (not path.startswith(Settings.settings["root"])):
+            if (not path.startswith(Settings.settings["root"][:-1])):
                 return {"role": 1}
 
         elif (method == "POST"):
@@ -25,7 +25,7 @@ class Authorization:
                 return {"role": 1}
 
             path = args["PATH"]
-            if (not path.startswith(Settings.settings["root"])):
+            if (not path.startswith(Settings.settings["root"][:-1])):
                 return {"role": 1}
 
         return {"role": 0}
