@@ -46,7 +46,7 @@ class MainController(cc):
 
 		icon = IconFinder()
 
-		for root, dirs, files in os.walk(f"'{folder}'"):
+		for root, dirs, files in os.walk(folder):
 			for name in dirs:
 					jsonResponse["FOLDER"].append(
 					{
