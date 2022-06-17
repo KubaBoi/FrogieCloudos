@@ -35,7 +35,7 @@ class FileController(cc):
 
         cc.serveFile(server, file)
 
-        return ({"STATUS": "OK"}, 200)
+        return cc.createResponse({"STATUS": "OK"}, 200)
 
     #@post /upload;
     @staticmethod
