@@ -33,9 +33,11 @@ class FileController(cc):
         if (not os.path.exists(file)):
             raise NotFound("File not found")
 
-        cc.serveFile(server, file)
+        Logger.info(f"Serving file: {file}")
+        with open(file, "rb") as f:
+            data = f.read()
 
-        return cc.createResponse({"STATUS": "OK"}, 200)
+        return (data, 200)
 
     #@post /upload;
     @staticmethod
