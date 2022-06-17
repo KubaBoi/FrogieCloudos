@@ -1,0 +1,10 @@
+{
+    "authentication": {
+        "enabled": false,
+        "types": []
+    },
+
+    "roles": {},
+
+    "access": {}
+}

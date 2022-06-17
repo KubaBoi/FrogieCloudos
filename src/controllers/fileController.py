@@ -2,17 +2,59 @@
 # -*- coding: utf-8 -*-
 
 import os
+import platform
 import shutil
 from send2trash import send2trash
 
 from Cheese.resourceManager import ResMan
 from Cheese.cheeseController import CheeseController as cc
 from Cheese.httpClientErrors import *
+from Cheese.Logger import Logger
 
 
 
 #@controller /file;
 class FileController(cc):
+
+    #@get /download;
+    @staticmethod
+    def download(server, path, auth):
+        args = cc.getArgs(path)
+
+        cc.checkJson(["file"], args)
+
+        file = args["file"]
+
+        if (platform.system() == "Windows"):
+            file = file.replace("/", "\\")
+        else:
+            file = file.replace("\\", "/")
+
+        print(file)
+        if (not os.path.exists(file)):
+            raise NotFound("File not found")
+
+        Logger.info(f"Serving file: {file}")
+        with open(file, "rb") as f:
+            data = f.read()
+
+        return (data, 200)
+
+    #@post /upload;
+    @staticmethod
+    def upload(server, path, auth):
+        file = cc.readBytes(server)
+        args = cc.getArgs(path)
+
+        cc.checkJson(["name", "path"], args)
+
+        name = args["name"]
+        pth = args["path"]
+
+        with open(os.path.join(pth, name), "wb") as f:
+            f.write(file)
+
+        return cc.createResponse({"STATUS": "File was uploaded"}, 200)
 
     #@post /copy;
     @staticmethod
