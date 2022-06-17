@@ -4,7 +4,6 @@ import json
 settPath = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "appSettings.json"))
 
 try:
-
     with open(settPath, "r") as f:
         data = json.loads(f.read())
 
