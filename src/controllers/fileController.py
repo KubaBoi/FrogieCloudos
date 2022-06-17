@@ -30,7 +30,6 @@ class FileController(cc):
         else:
             file = file.replace("\\", "/")
 
-        print(file)
         if (not os.path.exists(file)):
             raise NotFound("File not found")
 
