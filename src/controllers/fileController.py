@@ -34,7 +34,7 @@ class FileController(cc):
             raise NotFound("File not found")
 
         Logger.info(f"Serving file: {file}")
-        with open(file, "rb") as f:
+        with open(file, "r") as f:
             data = f.read()
 
         return (data, 200)
