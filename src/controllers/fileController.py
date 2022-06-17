@@ -37,7 +37,7 @@ class FileController(cc):
         with open(file, "r") as f:
             data = f.read()
 
-        return (data, 200)
+        return (data.encode("utf-8"), 200)
 
     #@post /upload;
     @staticmethod
