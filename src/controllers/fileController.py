@@ -53,6 +53,7 @@ class FileController(cc):
         else:
             pth = pth.replace("\\", "/")
 
+        Logger.info(f"Uploading file: {pth}, {name}")
         with open(os.path.join(pth, name), "wb") as f:
             f.write(file)
 
