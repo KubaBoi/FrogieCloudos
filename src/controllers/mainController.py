@@ -69,7 +69,6 @@ class MainController(cc):
 		cc.checkJson(["path"], args)
 
 		file = args["path"]
-		print(file)
 
 		return cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
 
