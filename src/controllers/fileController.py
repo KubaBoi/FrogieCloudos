@@ -11,8 +11,6 @@ from Cheese.cheeseController import CheeseController as cc
 from Cheese.httpClientErrors import *
 from Cheese.Logger import Logger
 
-
-
 #@controller /file;
 class FileController(cc):
 

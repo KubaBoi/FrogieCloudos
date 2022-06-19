@@ -4,7 +4,7 @@ from Cheese.resourceManager import ResMan
 
 class IconFinder:
     def __init__(self):
-        with open(f"{ResMan.resources()}/iconDictionary.json", "r") as f:
+        with open(ResMan.resources("iconDictionary.json"), "r") as f:
             self.dict = json.loads(f.read())
 
     def find(self, file):
@@ -13,3 +13,7 @@ class IconFinder:
             return self.dict[fileType]
         else:
             return "unknownIcon.png"
+
+    def refreshIcons(self, jsn):
+        with open(ResMan.resources("iconDictionary.json"), "w") as f:
+            f.write(json.dumps(jsn))

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
 
 from Cheese.resourceManager import ResMan
 from Cheese.appSettings import Settings
@@ -70,6 +71,34 @@ class MainController(cc):
 		print(file)
 
 		return cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
+
+	#@post /syncIconJson;
+	@staticmethod
+	def syncIconJson(server, path, auth):
+		args = cc.readArgs(server)
+
+		cc.checkJson(["ICONS", args])
+
+		icon = IconFinder()
+		icon.refreshIcons(args["ICONS"])
+
+		return cc.createResponse({"STATUS": "OK"}, 200)
+
+	#@post /syncIcons;
+	@staticmethod
+	def syncIcons(server, path, auth):
+		file = cc.readBytes(server)
+		args = cc.getArgs(path)
+
+		cc.checkJson(["path"], args)
+
+		# /images + pth
+		pth = args["path"]
+
+		with open(ResMan.web(*pth.split("/")), "wb") as f:
+			f.write(file)
+
+		return cc.createResponse({"STATUS": "File was uploaded"}, 200)
 
 	#TODO
 	#@get /file;
