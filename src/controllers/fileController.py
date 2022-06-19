@@ -152,7 +152,7 @@ class FileController(cc):
             print(file)
             os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
         else:
-            pass
+            print(file)
 
         return cc.createResponse({"STATUS": "ok"}, 200)
 
