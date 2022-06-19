@@ -77,7 +77,7 @@ class MainController(cc):
 	def syncIconJson(server, path, auth):
 		args = cc.readArgs(server)
 
-		cc.checkJson(["ICONS", args])
+		cc.checkJson(["ICONS"], args)
 
 		icon = IconFinder()
 		icon.refreshIcons(args["ICONS"])
