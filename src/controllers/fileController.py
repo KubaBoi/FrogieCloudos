@@ -170,12 +170,15 @@ class FileController(cc):
         if (not os.path.exists(folder)):
             raise NotFound("Folder not found")
 
-        folderName = "New folder"
-        actFolderName = folderName
-        id = 0
-        while (os.path.exists(os.path.join(folder, actFolderName))):
-            id += 1
-            actFolderName = f"{folderName} ({str(id)})"
+        if ("name" in args.keys()):
+            actFolderName = args["name"]
+        else:
+            folderName = "New folder"
+            actFolderName = folderName
+            id = 0
+            while (os.path.exists(os.path.join(folder, actFolderName))):
+                id += 1
+                actFolderName = f"{folderName} ({str(id)})"
 
         if (platform.system() == "Windows"):
             actFolderName = actFolderName.replace("/", "\\")
