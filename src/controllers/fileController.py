@@ -173,6 +173,13 @@ class FileController(cc):
             id += 1
             actFolderName = f"{folderName} ({str(id)})"
 
+        if (platform.system() == "Windows"):
+            actFolderName = actFolderName.replace("/", "\\")
+            folder = folder.replace("/", "\\")
+        else:
+            actFolderName = actFolderName.replace("\\", "/")
+            folder = folder.replace("\\", "/")
+
         os.mkdir(os.path.join(folder, actFolderName))
 
         return cc.createResponse({"FOLDER": actFolderName}, 200)
