@@ -162,6 +162,10 @@ class FileController(cc):
         cc.checkJson(["path"], args)
 
         folder = args["path"]
+        if (platform.system() == "Windows"):
+            folder = folder.replace("/", "\\")
+        else:
+            folder = folder.replace("\\", "/")
 
         if (not os.path.exists(folder)):
             raise NotFound("Folder not found")
@@ -175,10 +179,8 @@ class FileController(cc):
 
         if (platform.system() == "Windows"):
             actFolderName = actFolderName.replace("/", "\\")
-            folder = folder.replace("/", "\\")
         else:
             actFolderName = actFolderName.replace("\\", "/")
-            folder = folder.replace("\\", "/")
 
         Logger.info(f"Making directory: {folder}, {actFolderName}")
         os.mkdir(os.path.join(folder, actFolderName))
