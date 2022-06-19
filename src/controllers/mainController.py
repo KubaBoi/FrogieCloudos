@@ -8,6 +8,7 @@ from Cheese.resourceManager import ResMan
 from Cheese.appSettings import Settings
 from Cheese.cheeseController import CheeseController as cc
 from Cheese.httpClientErrors import *
+from Cheese.Logger import Logger
 
 from src.iconFinder import IconFinder
 
@@ -96,6 +97,7 @@ class MainController(cc):
 		pth = args["path"]
 
 		with open(ResMan.web(*pth.split("/")), "wb") as f:
+			Logger.info(f"Saving: {ResMan.web(*pth.split('/'))}")
 			f.write(file)
 
 		return cc.createResponse({"STATUS": "File was uploaded"}, 200)
