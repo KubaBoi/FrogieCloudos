@@ -180,6 +180,7 @@ class FileController(cc):
             actFolderName = actFolderName.replace("\\", "/")
             folder = folder.replace("\\", "/")
 
+        Logger.info(f"Making directory: {folder}, {actFolderName}")
         os.mkdir(os.path.join(folder, actFolderName))
 
         return cc.createResponse({"FOLDER": actFolderName}, 200)
