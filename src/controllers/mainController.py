@@ -98,6 +98,7 @@ class MainController(cc):
 
 		with open(ResMan.web('images', pth), "wb") as f:
 			Logger.info(f"Saving: {ResMan.web('images', pth)}")
+			print(file)
 			f.write(file)
 
 		return cc.createResponse({"STATUS": "File was uploaded"}, 200)
