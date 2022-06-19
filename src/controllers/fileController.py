@@ -50,6 +50,11 @@ class FileController(cc):
         name = args["name"]
         pth = args["path"]
 
+        if (platform.system() == "Windows"):
+            pth = pth.replace("/", "\\")
+        else:
+            pth = pth.replace("\\", "/")
+
         with open(os.path.join(pth, name), "wb") as f:
             f.write(file)
 
@@ -64,6 +69,11 @@ class FileController(cc):
 
         folder = args["PATH"]
         items = args["ITEMS"]
+
+        if (platform.system() == "Windows"):
+            pth = pth.replace("/", "\\")
+        else:
+            pth = pth.replace("\\", "/")
 
         if (not os.path.exists(folder)):
             raise NotFound("Folder not found")
@@ -85,6 +95,11 @@ class FileController(cc):
 
         folder = args["PATH"]
         items = args["ITEMS"]
+
+        if (platform.system() == "Windows"):
+            folder = folder.replace("/", "\\")
+        else:
+            folder = folder.replace("\\", "/")
 
         if (not os.path.exists(folder)):
             raise NotFound("Folder not found")
@@ -112,6 +127,10 @@ class FileController(cc):
         path = args["PATH"]
 
         for file in files:
+            if (platform.system() == "Windows"):
+                file = file.replace("/", "\\")
+            else:
+                file = file.replace("\\", "/")
             send2trash(file)
 
         return cc.createResponse({"STATUS": "ok"}, 200)
