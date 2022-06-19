@@ -3,6 +3,7 @@
 
 import os
 import json
+import platform
 
 from Cheese.resourceManager import ResMan
 from Cheese.appSettings import Settings
@@ -69,6 +70,11 @@ class MainController(cc):
 		cc.checkJson(["path"], args)
 
 		file = args["path"]
+
+		if (platform.system() == "Windows"):
+			file = file.replace("/", "\\")
+		else:
+			file = file.replace("\\", "/")
 
 		return cc.createResponse({'EXISTS': os.path.exists(file)}, 200)
 
