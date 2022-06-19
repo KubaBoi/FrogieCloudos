@@ -148,7 +148,11 @@ class FileController(cc):
         if (not os.path.exists(file)):
             raise NotFound("File not found")
 
-        os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
+        if (platform.system() == "Windows"):
+            print(file)
+            os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
+        else:
+            pass
 
         return cc.createResponse({"STATUS": "ok"}, 200)
 
