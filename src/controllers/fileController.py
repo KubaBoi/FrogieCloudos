@@ -151,7 +151,7 @@ class FileController(cc):
         if (platform.system() == "Windows"):
             os.rename(file, os.path.join(*file.split("\\")[:-1], newName).replace("C:", "C:\\"))
         else:
-            os.rename(file, os.path.join(*file.split("/")[:-1], newName))
+            os.rename(file, "/" + os.path.join(*file.split("/")[:-1], newName))
 
         return cc.createResponse({"STATUS": "ok"}, 200)
 
