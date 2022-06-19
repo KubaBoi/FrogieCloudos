@@ -94,7 +94,7 @@ class MainController(cc):
 		cc.checkJson(["path"], args)
 
 		# /images + pth
-		pth = args["path"]
+		pth = args["path"].replace("\\", "/")
 
 		with open(ResMan.web(*pth.split("/")), "wb") as f:
 			Logger.info(f"Saving: {ResMan.web(*pth.split('/'))}")
