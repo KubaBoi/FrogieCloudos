@@ -96,8 +96,8 @@ class MainController(cc):
 		# /images + pth
 		pth = args["path"].replace("\\", "/")
 
-		with open(ResMan.web(*pth.split("/")), "wb") as f:
-			Logger.info(f"Saving: {ResMan.web(*pth.split('/'))}")
+		with open(ResMan.web(pth), "wb") as f:
+			Logger.info(f"Saving: {ResMan.web(pth)}")
 			f.write(file)
 
 		return cc.createResponse({"STATUS": "File was uploaded"}, 200)
